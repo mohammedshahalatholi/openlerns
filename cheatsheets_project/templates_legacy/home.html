@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="home-grid">
+    {% for letter, tech_list in grouped_technologies.items %}
+    <div class="letter-group">
+        <h2>{{ letter }}</h2>
+        <ul>
+            {% for tech in tech_list %}
+            <li><a href="{% url 'core:technology_detail' tech.slug %}">{{ tech.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

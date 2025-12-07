@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Search: {{ query }} - CheatSheets Hub{% endblock %}
+
+{% block content %}
+<h1>Search Results for "{{ query }}"</h1>
+
+{% if technologies %}
+<h2>Technologies</h2>
+<div class="tech-grid">
+    {% for tech in technologies %}
+    <a href="{% url 'technology_detail' tech.slug %}" class="card">
+        <div class="tech-icon">
+            {% if tech.icon %}
+            <i class="{{ tech.icon }}"></i>
+            {% else %}
+            <i class="fa-solid fa-layer-group"></i>
+            {% endif %}
+        </div>
+        <h3>{{ tech.name }}</h3>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if cheatsheets %}
+<h2 style="margin-top: 2rem;">Cheat Sheets</h2>
+<div class="cheatsheet-grid">
+    {% for sheet in cheatsheets %}
+    <div class="card sheet-card">
+        <h3>{{ sheet.title }}</h3>
+        <p>Technology: <a href="{% url 'technology_detail' sheet.technology.slug %}">{{ sheet.technology.name }}</a></p>
+        <div class="sheet-actions">
+            {% if sheet.file_type == 'link' and sheet.url %}
+            <a href="{{ sheet.url }}" target="_blank" class="btn">View <i class="fa-solid fa-external-link-alt"></i></a>
+            {% elif sheet.file %}
+            <a href="{{ sheet.file.url }}" target="_blank" class="btn">Download</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if not technologies and not cheatsheets %}
+<p>No results found for "{{ query }}".</p>
+<a href="{% url 'home' %}" class="btn" style="margin-top: 1rem;">Back to Home</a>
+{% endif %}
+{% endblock %}

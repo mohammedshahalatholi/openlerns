@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ technology.name }} Cheat Sheets - {{ SITE_TITLE }}{% endblock %}
+
+{% block meta_description %}{{ technology.description|default:technology.name|add:" cheat sheets, documentation, and
+resources." }}{% endblock %}
+
+{% block og_title %}{{ technology.name }} Cheat Sheets - {{ SITE_TITLE }}{% endblock %}
+{% block og_description %}{{ technology.description|default:technology.name|add:" cheat sheets, documentation, and
+resources." }}{% endblock %}
+
+{% block twitter_title %}{{ technology.name }} Cheat Sheets - {{ SITE_TITLE }}{% endblock %}
+{% block twitter_description %}{{ technology.description|default:technology.name|add:" cheat sheets, documentation, and
+resources." }}{% endblock %}
+
+{% block content %}
+<div class="tech-header">
+    <a href="{% url 'home' %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    <h1>
+        {% if technology.icon %}<i class="{{ technology.icon }}"></i>{% endif %}
+        {{ technology.name }} Cheat Sheets
+    </h1>
+    {% if technology.description %}
+    <p class="tech-desc">{{ technology.description }}</p>
+    {% endif %}
+</div>
+
+<div class="cheatsheet-grid">
+    {% for sheet in cheatsheets %}
+    <div class="card sheet-card">
+        <div class="sheet-icon">
+            {% if sheet.file_type == 'pdf' %}
+            <i class="fa-solid fa-file-pdf"></i>
+            {% elif sheet.file_type == 'image' %}
+            <i class="fa-solid fa-image"></i>
+            {% else %}
+            <i class="fa-solid fa-link"></i>
+            {% endif %}
+        </div>
+        <h3>{{ sheet.title }}</h3>
+
+        <div class="sheet-actions">
+            {% if sheet.file_type == 'link' and sheet.url %}
+            <a href="{% url 'cheatsheet_detail' sheet.slug %}" class="btn">View Sheet <i
+                    class="fa-solid fa-eye"></i></a>
+            {% elif sheet.file %}
+            <a href="{{ sheet.file.url }}" target="_blank" class="btn">Download / View</a>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <p>No cheat sheets available for this technology yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

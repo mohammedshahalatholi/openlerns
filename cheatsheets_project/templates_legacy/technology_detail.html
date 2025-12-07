@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ technology.name }} - CheatSheets Hub{% endblock %}
+
+{% block content %}
+<div class="tech-detail">
+    <h1>{{ technology.name }}</h1>
+    <p class="description">{{ technology.description }}</p>
+
+    <div class="cheatsheets-list">
+        {% for sheet in cheatsheets %}
+        <div class="cheatsheet-item">
+            <h3>{{ sheet.title }}</h3>
+            {% if sheet.description %}
+            <p>{{ sheet.description }}</p>
+            {% endif %}
+
+            <div class="sheet-content">
+                {% if sheet.type == 'image' %}
+                {% if sheet.file %}
+                <img src="{{ sheet.file.url }}" alt="{{ sheet.title }}" class="sheet-image">
+                {% endif %}
+                {% elif sheet.type == 'pdf' %}
+                {% if sheet.file %}
+                <a href="{{ sheet.file.url }}" target="_blank" class="btn">Download PDF</a>
+                {% endif %}
+                {% elif sheet.type == 'link' %}
+                {% if sheet.external_url %}
+                <a href="{{ sheet.external_url }}" target="_blank" class="btn">Visit Link</a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p>No cheat sheets available for this technology yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

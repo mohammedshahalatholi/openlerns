@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-section">
+    <!-- HELLO FROM HOME -->
+    <h1>Welcome to {{ SITE_TITLE }}</h1>
+    <p>{{ SITE_DESCRIPTION }}</p>
+</section>
+
+<div class="category-filter">
+    <a href="{% url 'home' %}" class="cat-pill {% if not selected_category %}active{% endif %}">
+        <i class="fa-solid fa-layer-group"></i> All
+    </a>
+    {% for cat in all_categories %}
+    <a href="?category={{ cat.slug }}" class="cat-pill {% if selected_category == cat.slug %}active{% endif %}">
+        <i class="{{ cat.icon }}"></i> {{ cat.name }}
+    </a>
+    {% endfor %}
+</div>
+
+<div class="categories-container">
+    {% for category in categories %}
+    <div class="category-section">
+        <div class="category-header">
+            <i class="{{ category.icon }}"></i>
+            <h2>{{ category.name }}</h2>
+        </div>
+        <div class="tech-grid">
+            {% for tech in category.technologies.all %}
+            <a href="{% url 'technology_detail' tech.slug %}" class="card">
+                <div class="tech-icon">
+                    <i class="{{ tech.icon }}"></i>
+                </div>
+                <h3>{{ tech.name }}</h3>
+                <p>{{ tech.cheatsheets.count }} Cheatsheets</p>
+            </a>
+            {% empty %}
+            <p class="no-data">No technologies in this category.</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="no-data">
+        <p>No categories found. Check back soon!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

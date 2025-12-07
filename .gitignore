@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+db.sqlite3
+
+# Environment
+.env
+.venv
+env/
+venv/
+
+# Static/Media
+# staticfiles/
+# media/
+*.log
+*.pot
+*.pyc

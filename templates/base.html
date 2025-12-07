@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ SITE_TITLE }}{% endblock %}</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}{{ SITE_DESCRIPTION }}{% endblock %}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}{{ SITE_TITLE }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ SITE_DESCRIPTION }}{% endblock %}">
+    <meta property="og:site_name" content="{{ SITE_TITLE }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.build_absolute_uri }}">
+    <meta property="twitter:title" content="{% block twitter_title %}{{ SITE_TITLE }}{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}{{ SITE_DESCRIPTION }}{% endblock %}">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <!-- HELLO FROM BASE -->
+        <div class="container header-content">
+            <a href="{% url 'home' %}" class="logo">
+                <i class="fa-solid fa-code"></i> {{ SITE_TITLE }}
+            </a>
+            <div class="search-container">
+                <form action="{% url 'search' %}" method="get">
+                    <input type="text" name="q" placeholder="Search cheatsheets..." value="{{ request.GET.q }}">
+                    <button type="submit"><i class="fa-solid fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {% now "Y" %} <a href="{{ SITE_OWNER_LINK }}" target="_blank" rel="noopener">{{ SITE_OWNER }}</a>.
+                Built for developers.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

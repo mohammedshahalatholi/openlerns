@@ -1,0 +1,5 @@
+Django>=4.2,<5.0
+Pillow
+gunicorn
+django-storages
+boto3

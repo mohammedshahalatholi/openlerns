@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Viewing {{ cheatsheet.title }} - {{ SITE_TITLE }}{% endblock %}
+
+{% block content %}
+<div class="viewer-container" style="height: calc(100vh - 200px); display: flex; flex-direction: column;">
+    <div class="viewer-header"
+        style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <div class="left">
+            <a href="{% url 'technology_detail' cheatsheet.technology.slug %}" class="btn"
+                style="background: var(--card-bg); border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </a>
+            <span style="font-weight: bold; margin-left: 1rem; font-size: 1.2rem;">{{ cheatsheet.title }}</span>
+        </div>
+        <div class="right">
+            <a href="{{ cheatsheet.url }}" target="_blank" class="btn">
+                Open in New Tab <i class="fa-solid fa-external-link-alt"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="iframe-wrapper"
+        style="flex: 1; border: 1px solid var(--border-color); border-radius: 0.5rem; overflow: hidden; background: white;">
+        <iframe src="{{ cheatsheet.url }}" style="width: 100%; height: 100%; border: none;"
+            title="{{ cheatsheet.title }}"></iframe>
+    </div>
+</div>
+{% endblock %}
